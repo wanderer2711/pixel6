@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Form</title>
+    <link rel="stylesheet" href="style.css">
+    <div class="header">
+        <a href="#default" class="logo">Pixel6</a>
+        </div>
+      </div>
+</head>
+<body>
+    <div id="form" class="form">
+        <input type="text" id="fname" name="fname" placeholder="First Name" minlength="4"><br><br>
+        <input type="text" id="lname" name="lname" placeholder="Last Name" minlength="4"><br><br>
+        <input type="text" id="number" name="number" placeholder="Phone Number"> <br><br>
+
+        <input type="submit" onclick="newOtp()" value="Submit" id="subbut">
+    </div>
+    <div id="confirmText">
+        <p default="hidden">Dear <span id="displayText"></span> Thank you for your enquiry. A 4 digit verification number has been sent to your phone number: <span id="cellNumber"></span>, please enter in the following box and submit for confirmation:</p>
+
+        <input type="text" id="otp">
+        <input type="submit" id="validation">
+    </div>
+
+    <script>
+        //Hiding Text until User Provides Input and Submits it
+        document.getElementById("confirmText").style.display = 'none';
+
+        const phoneNumberFormatting = (event) => {
+
+        const target = event.target;
+        const input = target.value.replace(/\D/g, '').substring(0, 10);
+        const pin = input.substring(0, 3);
+        const middle = input.substring(3, 6);
+        const last = input.substring(6, 10);
+        
+        //Formatting Number According to Phone Number Standard 
+        if(input.length > 6) {
+            target.value = `(${pin}) - ${middle} - ${last}`;}
+        else if (input.length > 3) {
+            target.value = `(${pin}) - ${middle}`;
+        }
+        else if (input.length > 0) {
+            target.value = `(${pin})`;
+        }
+
+        };
+        const inputElement = document.getElementById('number');
+        inputElement.addEventListener('keyup', phoneNumberFormatting);
+
+            // Generating Random Number
+            let newOtp = function otp () {
+                let randomNum = Math.floor(1000 + Math.random() * 9000);
+                alert(randomNum);
+
+                var fname = document.getElementById("fname").value;
+
+                var pnumber = document.getElementById("number").value;
+
+                //Storing User Input in a Session
+                sessionStorage.setItem("fname", fname);
+
+                sessionStorage.setItem("number", number);
+
+                //Grabbing Input from User
+                document.getElementById("form").style.display = "none";
+
+                document.getElementById("confirmText").style.display = 'block';
+
+                document.getElementById("displayText").innerHTML = sessionStorage.getItem("fname");
+
+                document.getElementById("cellNumber").innerHTML = sessionStorage.getItem("number"); 
+
+                return randomNum;
+            }     
+
+            //Form Validation
+            function checkform(){
+
+                var otp = document.getElementById("otp").value
+                
+                if(otp == newOtp) {
+                    window.location.href = "http://pixel6.co";
+                }
+                else {
+                    window.location.href = "http://yahoo.com"
+                }
+            }
+    </script>
+</body>
+</html>
