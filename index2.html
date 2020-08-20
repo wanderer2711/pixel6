@@ -12,9 +12,10 @@
 </head>
 <body>
     <div id="form" class="form">
-        <input type="text" id="fname" name="fname" placeholder="First Name" minlength="4"><br><br>
-        <input type="text" id="lname" name="lname" placeholder="Last Name" minlength="4"><br><br>
-        <input type="text" id="number" name="number" placeholder="Phone Number"> <br><br>
+        <input type="text" id="fname" name="fname" placeholder="First Name" required minlength="4"><br><br>
+        <input type="text" id="lname" name="lname" placeholder="Last Name" required minlength="4"><br><br>
+        <input type="text" id="number" name="number" placeholder="Phone Number" onkeypress='return restrictAlphabets(event)'><br> 
+        <img id="operator" width="160" height="145"> <br><br>
 
         <input type="submit" onclick="newOtp()" value="Submit" id="subbut">
     </div>
@@ -22,10 +23,19 @@
         <p default="hidden">Dear <span id="displayText"></span> Thank you for your enquiry. A 4 digit verification number has been sent to your phone number: <span id="cellNumber"></span>, please enter in the following box and submit for confirmation:</p>
 
         <input type="text" id="otp">
-        <input type="submit" id="validation">
+        <input type="submit" id="validation" onclick="checkform()">
     </div>
 
     <script>
+
+        //Restricting Input to only accept Numbers and Not Alphabets 
+        function restrictAlphabets(e) {
+                    var x = e.which || e.keycode;
+                    if ((x >= 48 && x <= 57))
+                        return true;
+                    else
+                        return false;
+                }
         //Hiding Text until User Provides Input and Submits it
         document.getElementById("confirmText").style.display = 'none';
 
@@ -46,8 +56,8 @@
         else if (input.length > 0) {
             target.value = `(${pin})`;
         }
-
         };
+
         const inputElement = document.getElementById('number');
         inputElement.addEventListener('keyup', phoneNumberFormatting);
 
@@ -63,7 +73,7 @@
                 //Storing User Input in a Session
                 sessionStorage.setItem("fname", fname);
 
-                sessionStorage.setItem("number", number);
+                sessionStorage.setItem("number", pnumber);
 
                 //Grabbing Input from User
                 document.getElementById("form").style.display = "none";
@@ -75,7 +85,8 @@
                 document.getElementById("cellNumber").innerHTML = sessionStorage.getItem("number"); 
 
                 return randomNum;
-            }     
+            }  
+
 
             //Form Validation
             function checkform(){
@@ -83,12 +94,22 @@
                 var otp = document.getElementById("otp").value
                 
                 if(otp == newOtp) {
+                    alert("Validation Successful")
                     window.location.href = "http://pixel6.co";
                 }
-                else {
+                else if(otp !== newOtp) {
+                    alert("Validation Failed")
                     window.location.href = "http://yahoo.com"
                 }
-            }
+            }  
+
+            // function OperatorLogo() {
+            //     var image = document.getElementById('operator')
+            //     var pnumber = document.getElementById('number')
+
+            //     if(pnumber == )
+            // }
+
     </script>
 </body>
 </html>
