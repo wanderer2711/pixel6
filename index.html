@@ -15,7 +15,7 @@
         <input type="text" id="fname" name="fname" placeholder="First Name" required minlength="4"><br><br>
         <input type="text" id="lname" name="lname" placeholder="Last Name" required minlength="4"><br><br>
         <div id="finput">
-        <input type="text" id="number" name="number" placeholder="Phone Number" onkeypress='return noLetters(event)'> <img id="operator" width="160" height="145"></div>
+        <input type="text" id="number" name="number" placeholder="Phone Number" onkeypress='return noLetter(event)'> <img id="operator" width="160" height="145"></div>
         <br><br>
 
         <input type="submit" onclick="newOtp()" value="Submit" id="subbut">
@@ -31,8 +31,9 @@
         //Restricting Input to only accept Numbers and Not Alphabets 
         function noLetter(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode;
-            if ((charCode < 48 || charCode > 57))
+            if (charCode != 46 && charCode > 31 &&(charCode < 48 || charCode > 57))
                 return false;
+
            return true;
         }
         //Hiding Text until User Provides Input and Submits it
