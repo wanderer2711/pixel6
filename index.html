@@ -14,8 +14,9 @@
     <div id="form" class="form">
         <input type="text" id="fname" name="fname" placeholder="First Name" required minlength="4"><br><br>
         <input type="text" id="lname" name="lname" placeholder="Last Name" required minlength="4"><br><br>
-        <input type="text" id="number" name="number" placeholder="Phone Number" onkeypress='return restrictAlphabets(event)'><br> 
-        <img id="operator" width="160" height="145"> <br><br>
+        <div id="finput">
+        <input type="text" id="number" name="number" placeholder="Phone Number" onkeypress='return noLetters(event)'> <img id="operator" width="160" height="145"></div>
+        <br><br>
 
         <input type="submit" onclick="newOtp()" value="Submit" id="subbut">
     </div>
@@ -27,15 +28,13 @@
     </div>
 
     <script>
-
         //Restricting Input to only accept Numbers and Not Alphabets 
-        function restrictAlphabets(e) {
-                    var x = e.which || e.keycode;
-                    if ((x >= 48 && x <= 57))
-                        return true;
-                    else
-                        return false;
-                }
+        function noLetter(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if ((charCode < 48 || charCode > 57))
+                return false;
+           return true;
+        }
         //Hiding Text until User Provides Input and Submits it
         document.getElementById("confirmText").style.display = 'none';
 
@@ -46,10 +45,23 @@
         const pin = input.substring(0, 3);
         const middle = input.substring(3, 6);
         const last = input.substring(6, 10);
+        var image = document.getElementById('operator')
+        var pnumber = document.getElementById('number')
         
         //Formatting Number According to Phone Number Standard 
         if(input.length > 6) {
-            target.value = `(${pin}) - ${middle} - ${last}`;}
+            target.value = `(${pin}) - ${middle} - ${last}`;
+            }
+            //Checking first three numbers for Operator 
+            if(pin >= 621 && pin <= 699) {
+                document.getElementById('operator').src = "Jio.png";
+            }
+            else if (pin >= 801 && pin <= 920) {
+                document.getElementById('operator').src = "idea.png.png";
+            }
+            else if (pin >= 921 && pin <= 999) {
+                document.getElementById('operator').src = "vodafone.png";
+            }
         else if (input.length > 3) {
             target.value = `(${pin}) - ${middle}`;
         }
@@ -62,9 +74,12 @@
         inputElement.addEventListener('keyup', phoneNumberFormatting);
 
             // Generating Random Number
-            let newOtp = function otp () {
+            var newOtp = function otp () {
                 let randomNum = Math.floor(1000 + Math.random() * 9000);
+
                 alert(randomNum);
+
+                sessionStorage.setItem("newOtp", randomNum);
 
                 var fname = document.getElementById("fname").value;
 
@@ -84,31 +99,24 @@
 
                 document.getElementById("cellNumber").innerHTML = sessionStorage.getItem("number"); 
 
-                return randomNum;
+                // return randomNum; 
             }  
-
 
             //Form Validation
             function checkform(){
 
-                var otp = document.getElementById("otp").value
+                var otp1 = document.getElementById("otp").value ;
                 
-                if(otp == newOtp) {
+                if(otp1 == sessionStorage.getItem("newOtp")) {
                     alert("Validation Successful")
                     window.location.href = "http://pixel6.co";
                 }
-                else if(otp !== newOtp) {
+                else {
                     alert("Validation Failed")
                     window.location.href = "http://yahoo.com"
                 }
-            }  
+            }
 
-            // function OperatorLogo() {
-            //     var image = document.getElementById('operator')
-            //     var pnumber = document.getElementById('number')
-
-            //     if(pnumber == )
-            // }
 
     </script>
 </body>
